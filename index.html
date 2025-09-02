@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Health Organization Hub</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f0fefc, #e5f9f2);
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(90deg, #2e7d74, #1b5f56);
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 28px;
+      background: linear-gradient(to right, #a7ffeb, #ffffff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      position: relative;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      background-color: #a7ffeb;
+      left: 0;
+      bottom: -5px;
+      transition: 0.3s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+    nav a:hover {
+      color: #a7ffeb;
+    }
+
+    /* PAGE TRANSITIONS */
+    section {
+      display: none;
+      padding: 40px 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
+    }
+    .active-section {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* HOME */
+    #home {
+      background: linear-gradient(120deg, #dafbf0, #e6e8fc);
+      text-align: center;
+    }
+    #home h2 {
+      font-size: 38px;
+      color: #2e7d74;
+      letter-spacing: 1px;
+    }
+    #home p {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+    }
+    #home img {
+      width: 250px;
+      margin: 30px 0;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* TIPS */
+    #tips {
+      background: #fffef9;
+    }
+    .tips-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+    }
+    .tip-card {
+      background: #ffffff;
+      border-left: 5px solid #2e7d74;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+      width: 300px;
+      transition: 0.3s;
+      text-align: center;
+    }
+    .tip-card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 10px;
+      transition: transform 0.3s ease;
+    }
+    .tip-card:hover img {
+      transform: scale(1.1);
+    }
+    .tip-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+    }
+    .tip-card h3 {
+      color: #2e7d74;
+      margin-bottom: 10px;
+    }
+    .tip-card p {
+      font-size: 14px;
+      color: #444;
+    }
+
+    /* REFERENCES */
+    .page-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .page-title h2 {
+      font-size: 34px;
+      color: #145c52;
+    }
+    .references-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+    }
+    .reference-card {
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .reference-card:hover {
+      transform: scale(1.03);
+    }
+    .reference-card img {
+      width: 70px;
+      height: 70px;
+      margin-bottom: 15px;
+    }
+    .reference-card h3 {
+      color: #2e7d74;
+    }
+    .reference-card p {
+      font-size: 14px;
+      color: #444;
+    }
+    .reference-card a {
+      color: #00796b;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* CONTACT */
+    .contact-form {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .contact-form h2 {
+      color: #2e7d74;
+      text-align: center;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    .contact-form button {
+      background-color: #2e7d74;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 25px;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .contact-form button:hover {
+      background-color: #1d5b53;
+    }
+    .message {
+      display: none;
+      color: green;
+      margin-top: 10px;
+    }
+
+    /* LOGIN */
+    .login-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      width: 350px;
+      text-align: center;
+      color: #2e7d74;
+      margin: 50px auto;
+    }
+    .login-card input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      border-radius: 10px;
+      border: none;
+      background: rgba(255, 255, 255, 0.6);
+    }
+    .login-card button {
+      padding: 12px 25px;
+      background-color: #2e7d74;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: #2e7d74;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🌿 Health Organization Hub</h1>
+  <nav>
+    <a onclick="showSection('home')">Home</a>
+    <a onclick="showSection('tips')">Tips</a>
+    <a onclick="showSection('reference')">References</a>
+    <a onclick="showSection('contact')">Contact</a>
+    <a onclick="showSection('login')">Login</a>
+  </nav>
+</header>
+
+<!-- HOME -->
+<section id="home" class="active-section">
+  <h2>Welcome to Health Tips Hub</h2>
+  <p>Your guide to better living through science, nutrition, and nature.</p>
+  <img src="https://cdn-icons-png.flaticon.com/512/3192/3192999.png" alt="Healthy Living" />
+</section>
+
+<!-- TIPS -->
+<section id="tips">
+  <h2 style="text-align:center; color:#145c52;">Daily Health Tips 💡</h2>
+  <div class="tips-container">
+    <div class="tip-card"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png"><h3>🌞 Morning Hydration</h3><p>Start your day with a glass of warm water to boost metabolism.</p></div>
+    <div class="tip-card"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046786.png"><h3>🥗 Eat Whole Foods</h3><p>Choose fruits, veggies, grains and nuts for natural nutrition.</p></div>
+    <div class="tip-card"><img src="https://cdn-icons-png.flaticon.com/512/1903/1903162.png"><h3>🧘 Mental Calm</h3><p>Meditate or breathe deeply for 5 minutes to reset your mind.</p></div>
+    <div class="tip-card"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046787.png"><h3>🚶‍♂ Stay Active</h3><p>Even a 20-minute walk can improve heart health and mood.</p></div>
+    <div class="tip-card"><img src="https://cdn-icons-png.flaticon.com/512/2927/2927347.png"><h3>💤 Quality Sleep</h3><p>Get 7-8 hours of sleep to support brain and body recovery.</p></div>
+    <div class="tip-card"><img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"><h3>💧 Stay Hydrated</h3><p>Drink at least 2 liters of water daily to maintain body functions.</p></div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="reference">
+  <div class="page-title"><h2>Trusted References 📚</h2></div>
+  <div class="references-container">
+    <div class="reference-card">
+      <h3>
+        <a href="https://www.who.int/" target="_blank">World Health Organization</a>
+      </h3>
+      <p>Global health updates, guides, and research.</p>
+    </div>
+    <div class="reference-card">
+      <h3>
+        <a href="https://www.nih.gov/" target="_blank">NIH</a>
+      </h3>
+      <p>Research-backed wellness and nutrition info.</p>
+    </div>
+    <div class="reference-card">
+      <h3>
+        <a href="https://www.mayoclinic.org/" target="_blank">Mayo Clinic</a>
+      </h3>
+      <p>Medical research and practical health advice.</p>
+    </div>
+    <div class="reference-card">
+      <h3>
+        <a href="https://www.cdc.gov/" target="_blank">CDC</a>
+      </h3>
+      <p>Trusted disease prevention and health safety information.</p>
+    </div>
+    <div class="reference-card">
+      <h3>
+        <a href="https://www.health.harvard.edu/" target="_blank">Harvard Health</a>
+      </h3>
+      <p>Research-based health articles and wellness guides.</p>
+    </div>
+    <div class="reference-card">
+      <h3>
+        <a href="https://www.webmd.com/" target="_blank">WebMD</a>
+      </h3>
+      <p>Comprehensive health resources and symptom guides.</p>
+    </div>
+    <div class="reference-card">
+      <h3>
+        <a href="https://www.nhs.uk/" target="_blank">NHS UK</a>
+      </h3>
+      <p>Trusted UK-based medical information and health services.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-form">
+    <h2>Contact Us</h2>
+    <!-- Connects to Flask /contact route -->
+    <form action="/contact" method="POST">
+      <input type="text" name="contactName" placeholder="Your Name" required />
+      <input type="email" name="contactEmail" placeholder="Your Email" required />
+      <textarea name="contactMsg" placeholder="Your Message" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+    <!-- Flask flash messages will display here -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="message">
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+</section>
+
+
+<!-- LOGIN -->
+<!-- LOGIN -->
+<section id="login">
+  <div class="login-card">
+    <h2>Login to Health Organization Hub</h2>
+    <!-- Connects to Flask /login route -->
+    <form action="/login" method="POST">
+      <input type="text" name="loginUser" placeholder="Username" required />
+      <input type="password" name="loginPass" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <!-- Flask flash messages will display here -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="message">
+          {% for msg in messages %}
+            <p>{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2025 Health Organization Hub. Powered by wellness & wisdom 💚
+</footer>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll("section").forEach(sec => {
+      sec.classList.remove("active-section");
+    });
+    const activeSec = document.getElementById(id);
+    activeSec.classList.add("active-section");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
+
+</body>
+</html>
